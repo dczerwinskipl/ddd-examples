@@ -1,0 +1,84 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Legacy", "Legacy", "{6E7F84F4-83ED-435D-8401-E2295043BD2B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1252E253-C349-4D9F-90CB-CCD6DCFDC5B6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Refactored", "Refactored", "{7B2E0543-4F77-4939-B783-9E7DEB735ED9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Version1", "Version1", "{F6E429A3-1B6D-4289-8F4B-E35C2EDB30D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounting", "Accounting", "{7694EDB7-DDB0-4049-9016-6BAA08316F29}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FlightBooking", "FlightBooking", "{C241E47A-4B7E-4088-B614-C5A55D19629B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DomainDrivenDesign.Core", "Core\src\DomainDrivenDesign.Core\DomainDrivenDesign.Core.csproj", "{48D295C9-8149-4EFF-853F-4EFEE00DDC0A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightBooking.Domain", "Version1\FlightBooking\src\FlightBooking.Domain\FlightBooking.Domain.csproj", "{06D0C50F-8DA1-437F-A1D5-F9B080E7019F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accounting.Domain", "Version1\Accounting\src\Accounting.Domain\Accounting.Domain.csproj", "{3F65C8E0-D65D-45F8-A341-5A6B460AEE1A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accounting.Contracts", "Version1\Accounting\src\Accounting.Contracts\Accounting.Contracts.csproj", "{8CD2FA44-81AC-4EA8-AE3F-FE688B2EADB9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Accounting", "Accounting", "{6A03D906-5B39-400A-B7EF-87AA61055C5E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Accounting", "Legacy\Accounting\src\Accounting.Domain\Accounting.csproj", "{5A67C20D-1D76-4A6D-9990-641DCA48F86B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FlightBooking", "FlightBooking", "{947E9580-7DFE-45EC-A9A2-49D28AE9B621}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlightReservation", "Legacy\FlightBooking\src\FlightReservation\FlightReservation.csproj", "{F48B0443-97E3-4B48-AD2A-4EE17B04B306}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48D295C9-8149-4EFF-853F-4EFEE00DDC0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48D295C9-8149-4EFF-853F-4EFEE00DDC0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48D295C9-8149-4EFF-853F-4EFEE00DDC0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48D295C9-8149-4EFF-853F-4EFEE00DDC0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06D0C50F-8DA1-437F-A1D5-F9B080E7019F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06D0C50F-8DA1-437F-A1D5-F9B080E7019F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06D0C50F-8DA1-437F-A1D5-F9B080E7019F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06D0C50F-8DA1-437F-A1D5-F9B080E7019F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F65C8E0-D65D-45F8-A341-5A6B460AEE1A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F65C8E0-D65D-45F8-A341-5A6B460AEE1A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F65C8E0-D65D-45F8-A341-5A6B460AEE1A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F65C8E0-D65D-45F8-A341-5A6B460AEE1A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8CD2FA44-81AC-4EA8-AE3F-FE688B2EADB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8CD2FA44-81AC-4EA8-AE3F-FE688B2EADB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8CD2FA44-81AC-4EA8-AE3F-FE688B2EADB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8CD2FA44-81AC-4EA8-AE3F-FE688B2EADB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A67C20D-1D76-4A6D-9990-641DCA48F86B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A67C20D-1D76-4A6D-9990-641DCA48F86B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A67C20D-1D76-4A6D-9990-641DCA48F86B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A67C20D-1D76-4A6D-9990-641DCA48F86B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F48B0443-97E3-4B48-AD2A-4EE17B04B306}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F48B0443-97E3-4B48-AD2A-4EE17B04B306}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F48B0443-97E3-4B48-AD2A-4EE17B04B306}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F48B0443-97E3-4B48-AD2A-4EE17B04B306}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F6E429A3-1B6D-4289-8F4B-E35C2EDB30D1} = {7B2E0543-4F77-4939-B783-9E7DEB735ED9}
+		{7694EDB7-DDB0-4049-9016-6BAA08316F29} = {F6E429A3-1B6D-4289-8F4B-E35C2EDB30D1}
+		{C241E47A-4B7E-4088-B614-C5A55D19629B} = {F6E429A3-1B6D-4289-8F4B-E35C2EDB30D1}
+		{48D295C9-8149-4EFF-853F-4EFEE00DDC0A} = {1252E253-C349-4D9F-90CB-CCD6DCFDC5B6}
+		{06D0C50F-8DA1-437F-A1D5-F9B080E7019F} = {C241E47A-4B7E-4088-B614-C5A55D19629B}
+		{3F65C8E0-D65D-45F8-A341-5A6B460AEE1A} = {7694EDB7-DDB0-4049-9016-6BAA08316F29}
+		{8CD2FA44-81AC-4EA8-AE3F-FE688B2EADB9} = {7694EDB7-DDB0-4049-9016-6BAA08316F29}
+		{6A03D906-5B39-400A-B7EF-87AA61055C5E} = {6E7F84F4-83ED-435D-8401-E2295043BD2B}
+		{5A67C20D-1D76-4A6D-9990-641DCA48F86B} = {6A03D906-5B39-400A-B7EF-87AA61055C5E}
+		{947E9580-7DFE-45EC-A9A2-49D28AE9B621} = {6E7F84F4-83ED-435D-8401-E2295043BD2B}
+		{F48B0443-97E3-4B48-AD2A-4EE17B04B306} = {947E9580-7DFE-45EC-A9A2-49D28AE9B621}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6602D14E-2C17-43C9-AA79-9B1F1657E01B}
+	EndGlobalSection
+EndGlobal
