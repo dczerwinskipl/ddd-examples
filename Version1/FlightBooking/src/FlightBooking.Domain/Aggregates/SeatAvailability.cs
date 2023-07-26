@@ -7,8 +7,8 @@ namespace FlightBooking.Domain.Aggregates;
 public class SeatAvailability : AggregateRoot<SeatAvailabilityId>
 {
     // ResourceId { type, id }
-    public FlightId FlightId { get; set; }
-    public SeatId SeatId { get; set; }
+    public FlightId? FlightId { get; set; }
+    public AirplaneSeatId? SeatId { get; set; }
 
     private bool IsAvailable => ReservationId is null;
 

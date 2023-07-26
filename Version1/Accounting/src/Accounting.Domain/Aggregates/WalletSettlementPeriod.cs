@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using Accounting.Contracts.ValueObjects;
 using Accounting.Domain.Events;
 using Accounting.Domain.Policies;
@@ -10,13 +11,15 @@ namespace Accounting.Domain.Aggregates;
 
 public class WalletSettlementPeriod : AggregateRoot<WalletSettlementPeriodId>
 {
-    public WalletId WalletId { get; private set; }
-    public SettlementPeriod SettlementPeriod { get; private set; }
-    private Money OpeningBalance { get; set; }
-    private Money Balance { get; set; }
-    private List<WalletTransaction> Transactions { get; } = new List<WalletTransaction>();
+    public WalletId WalletId { get; internal set; }
+    public SettlementPeriod SettlementPeriod { get; internal set; }
+    internal Money OpeningBalance { get; set; }
+    internal Money Debit { get; set; }
+    internal Money Credit { get; set; }
+    internal Money Balance => OpeningBalance + (Debit - Credit);
+    internal List<WalletTransaction> Transactions { get; set; } = new List<WalletTransaction>();
 
-    protected WalletSettlementPeriod() { }
+    internal WalletSettlementPeriod() { }
 
     [SetsRequiredMembers]
     protected WalletSettlementPeriod(WalletId walletId, SettlementPeriod settlementPeriod, Money openingBalance) : base(WalletSettlementPeriodId.NewId())
@@ -25,14 +28,21 @@ public class WalletSettlementPeriod : AggregateRoot<WalletSettlementPeriodId>
 
         SettlementPeriod = settlementPeriod;
         OpeningBalance = openingBalance;
+        Debit = 0;
+        Credit = 0;
 
-        Balance = 0.00M;
+        Publish(new WalletBalanceChanged(WalletId, SettlementPeriod, Balance));
+    }
+
+    public void ChangeOpeningBalance(Money openingBalance)
+    {
+        OpeningBalance = openingBalance;
         Publish(new WalletBalanceChanged(WalletId, SettlementPeriod, Balance));
     }
 
     public void Deposit(TransactionId transactionId, DateTimeOffset date, Money amount)
     {
-        if (date != SettlementPeriod)
+        if ((SettlementPeriod)date != SettlementPeriod)
             throw new ArgumentException(nameof(date));
 
         if (amount < 0)
@@ -41,7 +51,9 @@ public class WalletSettlementPeriod : AggregateRoot<WalletSettlementPeriodId>
         if (Transactions.Any(t => t.Id == transactionId))
             return;
 
-        ChangeBalance(amount);
+        Debit += amount;
+
+        Publish(new WalletBalanceChanged(WalletId, SettlementPeriod, Balance));
         AddTransaction(WalletTransaction.Create(transactionId), date, amount);
     }
 
@@ -59,27 +71,23 @@ public class WalletSettlementPeriod : AggregateRoot<WalletSettlementPeriodId>
         if (Transactions.Any(t => t.Id == transactionId))
             return;
 
-        ChangeBalance(-amount);
+        Credit += amount;
+
+        Publish(new WalletBalanceChanged(WalletId, SettlementPeriod, Balance));
         AddTransaction(WalletTransaction.Create(transactionId), now, -amount);
     }
 
-    private void AddTransaction(WalletTransaction transaction, DateTimeOffset date, Money amount)
+    internal void AddTransaction(WalletTransaction transaction, DateTimeOffset date, Money amount)
     {
         Transactions.Add(transaction);
         Publish(new WalletTransactionSettled(WalletId, transaction.Id, date, amount));
     }
 
-    private void ChangeBalance(Money money)
-    {
-        Balance += money;
-        Publish(new WalletBalanceChanged(WalletId, SettlementPeriod, Balance));
-    }
-
     public WalletSettlementPeriodSnapshot GetSnapshot() => new(WalletId, SettlementPeriod, OpeningBalance, Balance);
 
-    public static WalletSettlementPeriod CreateNewPeriod(WalletId walletId, SettlementPeriod settlementPeriod, Money openingBalance, IWalletDebtPolicy walletDebtPolicy) => new(walletId, settlementPeriod, openingBalance, walletDebtPolicy);
+    public static WalletSettlementPeriod CreateNewPeriod(WalletId walletId, SettlementPeriod settlementPeriod, Money openingBalance) => new(walletId, settlementPeriod, openingBalance);
 
-    private class WalletTransaction : Entity<TransactionId>
+    internal class WalletTransaction : Entity<TransactionId>
     {
         public WalletTransaction()
         {
@@ -87,10 +95,9 @@ public class WalletSettlementPeriod : AggregateRoot<WalletSettlementPeriodId>
         }
 
         [SetsRequiredMembers]
-        protected WalletTransaction(TransactionId transactionId) : base(transactionId) { }
+        internal WalletTransaction(TransactionId transactionId) : base(transactionId) { }
 
         public static WalletTransaction Create(TransactionId transactionId) => new(transactionId);
     }
 }
-
 

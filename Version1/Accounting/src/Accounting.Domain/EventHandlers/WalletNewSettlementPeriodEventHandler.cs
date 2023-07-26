@@ -25,11 +25,9 @@ public class WalletNewSettlementPeriodEventHandler : IEventHandler<WalletCurrent
     {
         using var transaction = new TransactionScope();
 
-        var type = await _typeRepository.GetByWalletIdAsync(@event.WalletId, cancellationToken);
         var previousSettlement = await _settlementPeriodRepository.GetByWalletIdAndPeriodAsync(@event.WalletId, @event.CurrentPeriod.GetPreviousPeriod(), cancellationToken);
-        var debtPolicy = _debtPolicyFactory.CreatePolicy(type.GetSnapshot());
 
-        await _settlementPeriodRepository.SaveAsync(WalletSettlementPeriod.CreateNewPeriod(@event.WalletId, @event.CurrentPeriod, previousSettlement?.GetSnapshot().ClosingBalance ?? Money.Zero, debtPolicy), cancellationToken);
+        await _settlementPeriodRepository.SaveAsync(WalletSettlementPeriod.CreateNewPeriod(@event.WalletId, @event.CurrentPeriod, previousSettlement?.GetSnapshot().ClosingBalance ?? Money.Zero), cancellationToken);
 
         transaction.Complete();
     }

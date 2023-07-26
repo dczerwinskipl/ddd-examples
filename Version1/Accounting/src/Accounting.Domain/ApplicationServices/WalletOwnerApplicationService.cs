@@ -44,7 +44,7 @@ public class WalletOwnerApplicationService
         walletOwner.PersonalData = editWalletOwner.PersonalData;
 
         await _dataContext.SaveAsync(walletOwner);
-        await _eventPublisher.PublishAsync(new WalletOwnerChanged(walletOwner.Id, walletOwner.PersonalData));
+        await _eventPublisher.PublishAsync(new WalletOwnerPersonalDataChanged(walletOwner.Id, walletOwner.PersonalData));
 
         transaction.Complete();
     }
@@ -57,7 +57,7 @@ public class WalletOwnerApplicationService
         walletOwner.PersonalData = walletOwner.PersonalData with { PhoneNumber = phoneNumber };
 
         await _dataContext.SaveAsync(walletOwner);
-        await _eventPublisher.PublishAsync(new WalletOwnerChanged(walletOwner.Id, walletOwner.PersonalData));
+        await _eventPublisher.PublishAsync(new WalletOwnerPersonalDataChanged(walletOwner.Id, walletOwner.PersonalData));
 
         transaction.Complete();
     }

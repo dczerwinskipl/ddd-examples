@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection.Metadata;
 using Accounting.Domain.Events;
 using Accounting.DTOs;
 using DomainDrivenDesign.Core.BuildingBlocks;
@@ -10,14 +11,24 @@ public class Wallet : AggregateRoot<Guid>
 {
     public string Name { get; set; }
     public string? Description { get; set; }
+
     private WalletType WalletType { get; set; }
+
     private Guid OwnerId { get; set; }
     private string OwnerFirstName { get; set; }
     private string? OwnerMiddleName { get; set; }
     private string OwnerLastName { get; set; }
     private string OwnerPhoneNumber { get; set; }
+
     private decimal Balance { get; set; }
     private List<WalletTransaction> Transactions { get; } = new List<WalletTransaction>();
+
+    private bool WalletIsActive { get; set; }
+    private bool OwnerUserIsActive { get; set; }
+    private bool UserHasLegalPoceedings { get; set; }
+    private bool? UserLegalPoceedingsDiscontinued { get; set; }
+    private DateTime? WalletContractExpireDate { get; set; }
+    public bool WalletContractRenounced { get; set; }
 
     private Wallet(Guid id, string name, string? description, PersonDTO owner, WalletType walletType = WalletType.Standard) : base(id)
     {
@@ -30,6 +41,8 @@ public class Wallet : AggregateRoot<Guid>
         OwnerMiddleName = owner.MiddleName;
         OwnerLastName = owner.LastName;
         OwnerPhoneNumber = owner.PhoneNumber;
+        WalletIsActive = true;
+        OwnerUserIsActive = true;
         Publish(new WalletCreated(Id, Name, Description, owner.Copy(), walletType));
     }
 
@@ -37,6 +50,9 @@ public class Wallet : AggregateRoot<Guid>
 
     public void Deposit(Guid ownerId, TransactionDTO transaction)
     {
+        if (!IsActive())
+            throw new DomainException();
+
         if (Transactions.Any(t => t.Id == transaction.TransactionId))
             return;
 
@@ -52,6 +68,9 @@ public class Wallet : AggregateRoot<Guid>
 
     public void Withdraw(Guid ownerId, TransactionDTO transaction)
     {
+        if (!IsActive())
+            throw new DomainException();
+
         if (Transactions.Any(t => t.Id == transaction.TransactionId))
             return;
 
@@ -71,6 +90,9 @@ public class Wallet : AggregateRoot<Guid>
 
     public void ChangeOwner(PersonDTO owner)
     {
+        if (!IsActive())
+            throw new DomainException();
+
         OwnerId = owner.Id;
         OwnerFirstName = owner.FirstName;
         OwnerMiddleName = owner.MiddleName;
@@ -81,18 +103,34 @@ public class Wallet : AggregateRoot<Guid>
 
     public void ChangePhoneNumber(string phoneNumber)
     {
+        if (!IsActive())
+            throw new DomainException();
+
         OwnerPhoneNumber = phoneNumber;
         Publish(new WalletOwnerPhoneNumberChanged(Id, OwnerPhoneNumber));
     }
 
     public void ChangeType(WalletType type)
     {
+        if (!IsActive())
+            throw new DomainException();
+
         if (WalletType == type)
             return;
 
         WalletType = type;
         Publish(new WalletTypeChanged(Id, WalletType));
     }
+
+    private bool IsActive()
+    {
+        return
+            WalletIsActive
+            && OwnerUserIsActive
+            && (!UserHasLegalPoceedings || (UserLegalPoceedingsDiscontinued ?? false))
+            && (WalletContractExpireDate is null || WalletContractExpireDate > DateTime.UtcNow)
+            && !WalletContractRenounced;
+    } 
 
     private class WalletTransaction : Entity<Guid>
     {

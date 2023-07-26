@@ -5,7 +5,7 @@ namespace DomainDrivenDesign.Core.BuildingBlocks;
 
 public abstract class AggregateRoot<TKey>
 {
-    public TKey? Id { get; protected set; }
+    public TKey? Id { get; internal set; }
 
     protected AggregateRoot() { }
     protected AggregateRoot(TKey id)

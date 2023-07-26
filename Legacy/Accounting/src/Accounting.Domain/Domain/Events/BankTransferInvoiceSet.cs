@@ -1,0 +1,1 @@
+﻿public record BankTransferInvoiceSet(Guid BankTransferId, Guid InvoiceId) : BankTransferDomainEvent(BankTransferId);

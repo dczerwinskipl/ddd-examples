@@ -7,9 +7,10 @@ namespace Accounting.Domain.Aggregates;
 
 public class WalletSettlement : AggregateRoot<WalletSettlementId>
 {
-    public WalletId WalletId { get; private set; }
-    private SettlementPeriod CurrentPeriod { get; set; }
+    public WalletId WalletId { get; internal set; }
+    internal SettlementPeriod CurrentPeriod { get; set; }
 
+    internal WalletSettlement() { }
     protected WalletSettlement(WalletId walletId, DateTimeOffset date) : base(WalletSettlementId.NewId())
     {
         WalletId = walletId;

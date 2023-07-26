@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\Core\src\DomainDrivenDesign.Core\DomainDrivenDesign.Core.csproj" />
+  </ItemGroup>
+
 </Project>
