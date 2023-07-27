@@ -1,12 +1,6 @@
 ﻿namespace Accounting.DTOs;
 
-public record PersonDTO
+public record PersonDTO(Guid Id, string FirstName, string? MiddleName, string LastName, string PhoneNumber)
 {
-    public required Guid Id { get; init; }
-    public required string FirstName { get; init; }
-    public string? MiddleName { get; init; }
-    public required string LastName { get; init; }
-    public required string PhoneNumber { get; init; }
-
     public PersonDTO Copy() => this with { };
 }

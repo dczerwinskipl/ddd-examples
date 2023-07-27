@@ -12,22 +12,22 @@ public class Wallet : AggregateRoot<Guid>
     public string Name { get; set; }
     public string? Description { get; set; }
 
-    private WalletType WalletType { get; set; }
+    internal WalletType WalletType { get; set; }
 
-    private Guid OwnerId { get; set; }
-    private string OwnerFirstName { get; set; }
-    private string? OwnerMiddleName { get; set; }
-    private string OwnerLastName { get; set; }
-    private string OwnerPhoneNumber { get; set; }
+    internal Guid OwnerId { get; set; }
+    internal string OwnerFirstName { get; set; }
+    internal string? OwnerMiddleName { get; set; }
+    internal string OwnerLastName { get; set; }
+    internal string OwnerPhoneNumber { get; set; }
 
-    private decimal Balance { get; set; }
-    private List<WalletTransaction> Transactions { get; } = new List<WalletTransaction>();
+    internal decimal Balance { get; set; }
+    internal List<WalletTransaction> Transactions { get; } = new List<WalletTransaction>();
 
-    private bool WalletIsActive { get; set; }
-    private bool OwnerUserIsActive { get; set; }
-    private bool UserHasLegalPoceedings { get; set; }
-    private bool? UserLegalPoceedingsDiscontinued { get; set; }
-    private DateTime? WalletContractExpireDate { get; set; }
+    internal bool WalletIsActive { get; set; }
+    internal bool OwnerUserIsActive { get; set; }
+    internal bool UserHasLegalPoceedings { get; set; }
+    internal bool? UserLegalPoceedingsDiscontinued { get; set; }
+    internal DateTime? WalletContractExpireDate { get; set; }
     public bool WalletContractRenounced { get; set; }
 
     private Wallet(Guid id, string name, string? description, PersonDTO owner, WalletType walletType = WalletType.Standard) : base(id)
@@ -42,7 +42,6 @@ public class Wallet : AggregateRoot<Guid>
         OwnerLastName = owner.LastName;
         OwnerPhoneNumber = owner.PhoneNumber;
         WalletIsActive = true;
-        OwnerUserIsActive = true;
         Publish(new WalletCreated(Id, Name, Description, owner.Copy(), walletType));
     }
 
@@ -130,9 +129,9 @@ public class Wallet : AggregateRoot<Guid>
             && (!UserHasLegalPoceedings || (UserLegalPoceedingsDiscontinued ?? false))
             && (WalletContractExpireDate is null || WalletContractExpireDate > DateTime.UtcNow)
             && !WalletContractRenounced;
-    } 
+    }
 
-    private class WalletTransaction : Entity<Guid>
+    internal class WalletTransaction : Entity<Guid>
     {
         public required DateTimeOffset Date { get; init; }
         public required Money Amount { get; init; }

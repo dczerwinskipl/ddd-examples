@@ -68,5 +68,10 @@ public class WalletSettlementPeriodTests
     }
 
 
-    private static WalletSettlementPeriod CreateNewPeriod(Money openingBalance) => WalletSettlementPeriod.CreateNewPeriod(WalletId.NewId(), DateTime.Now, openingBalance);
+    private static WalletSettlementPeriod CreateNewPeriod(Money openingBalance) => 
+        WalletSettlementPeriod.CreateNewPeriod(
+            WalletId.NewId(), 
+            DateTime.Now, 
+            openingBalance
+        );
 }
